@@ -6,13 +6,14 @@
 <PageTitle>Transacciones - Cuentas Claras - Conservan mi dignidad</PageTitle>
 
 <div class="reveal-element">
-    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-8">
+    <MudStack Row="true" Wrap="Wrap.Wrap" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-8 gap-4">
         <div>
             <MudText Typo="Typo.h3" Style="font-weight: 800; color: var(--text-primary); letter-spacing: -0.03em;">Transacciones</MudText>
             <MudText Style="color: var(--text-secondary);">Gestiona tus movimientos con claridad y precisión.</MudText>
         </div>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenNewTransactionDialog" 
-                   Style="border-radius: 12px; padding: 12px 24px; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--accent)); shadow: var(--card-shadow);">
+                   Style="border-radius: 12px; padding: 12px 24px; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--accent)); shadow: var(--card-shadow);"
+                   Class="mud-width-full mud-width-sm-auto">
             Nueva Transacción
         </MudButton>
     </MudStack>

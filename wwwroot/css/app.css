@@ -9,8 +9,8 @@
     --text-secondary: var(--mud-palette-text-secondary);
     --glass-bg: var(--mud-palette-surface);
     --glass-border: var(--mud-palette-divider);
-    --glass-blur: blur(12px);
-    --card-shadow: var(--mud-elevation-4);
+    --glass-blur: blur(16px);
+    --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
     
     --header-font: 'Outfit', sans-serif;
     --body-font: 'Plus Jakarta Sans', sans-serif;
@@ -35,8 +35,8 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--surface);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--surface-border);
-    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
     box-shadow: var(--card-shadow);
 }
 

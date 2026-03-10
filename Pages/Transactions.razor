@@ -18,7 +18,7 @@
     </MudStack>
 
     <MudTable Items="@DocManager.State.Transactions.OrderByDescending(t => t.Date)" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="0" 
-              Class="glass-panel overflow-hidden reveal-element reveal-stagger-1" Style="background: rgba(30, 41, 59, 0.4) !important;">
+              Class="glass-panel overflow-hidden reveal-element reveal-stagger-1">
         <HeaderContent>
             <MudTh Style="color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">Fecha</MudTh>
             <MudTh Style="color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">Descripción</MudTh>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B95;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8EA1;stop-opacity:1" />
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
+      <feOffset dx="0" dy="10" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.2" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)"/>
+  
+  <!-- Friendly Piggy Bank -->
+  <g filter="url(#softShadow)" transform="translate(256, 280)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="140" ry="110" fill="white" />
+    
+    <!-- Ears -->
+    <path d="M-100 -80 Q-120 -130 -70 -100" fill="white" stroke="#FF6B95" stroke-width="8" />
+    <path d="M100 -80 Q120 -130 70 -100" fill="white" stroke="#FF6B95" stroke-width="8" />
+    
+    <!-- Snout -->
+    <ellipse cx="0" cy="20" rx="45" ry="35" fill="#FFE4E9" />
+    <circle cx="-15" cy="20" r="6" fill="#FF8EA1" />
+    <circle cx="15" cy="20" r="6" fill="#FF8EA1" />
+    
+    <!-- Eyes (Happy/Winking) -->
+    <path d="M-60 -20 Q-45 -35 -30 -20" fill="none" stroke="#4B5563" stroke-width="12" stroke-linecap="round" />
+    <!-- Winking eye -->
+    <circle cx="50" cy="-20" r="8" fill="#4B5563" />
+    
+    <!-- Legs -->
+    <rect x="-80" y="90" width="30" height="40" rx="15" fill="white" />
+    <rect x="50" y="90" width="30" height="40" rx="15" fill="white" />
+    
+    <!-- Coin Slot -->
+    <rect x="-40" y="-105" width="80" height="15" rx="7" fill="#FF8EA1" />
+  </g>
+  
+  <!-- Happy Coin Falling in -->
+  <circle cx="256" cy="110" r="45" fill="#FFD700" stroke="#EAB308" stroke-width="4">
+    <animate attributeName="cy" values="60;110;60" dur="2s" repeatCount="indefinite" />
+  </circle>
+  <text x="256" y="125" font-family="Arial" font-size="40" font-weight="bold" fill="#EAB308" text-anchor="middle">$</text>
+</svg>

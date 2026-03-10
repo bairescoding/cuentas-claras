@@ -114,6 +114,7 @@
                 _isDarkMode = await _themeProvider.GetSystemDarkModeAsync();
             }
             StateHasChanged();
+            await JS.InvokeVoidAsync("loadingFinished");
         }
     }
 }

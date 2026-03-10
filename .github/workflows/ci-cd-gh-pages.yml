@@ -48,7 +48,7 @@ jobs:
 
     - name: Fix base-href in service worker
       run: |
-        sed -i 's|const base = "/";|const base = "/cuentas-claras/";|g' release/wwwroot/service-worker.published.js
+        sed -i 's|const base = "/";|const base = "/cuentas-claras/";|g' release/wwwroot/service-worker.js
 
     # Hack to allow GitHub pages to serve folders starting with underscore (_framework)
     - name: Add .nojekyll file

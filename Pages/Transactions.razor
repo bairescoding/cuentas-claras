@@ -1,0 +1,83 @@
+@page "/transactions"
+@implements IDisposable
+@inject DocumentManager DocManager
+@inject IDialogService DialogService
+
+<PageTitle>Transacciones - Cuentas Claras</PageTitle>
+
+<MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+    <MudText Typo="Typo.h5" Class="font-weight-bold">Transacciones</MudText>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenNewTransactionDialog">
+        Nueva Transacción
+    </MudButton>
+</MudStack>
+
+<MudTable Items="@DocManager.State.Transactions.OrderByDescending(t => t.Date)" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="2" Class="rounded-lg">
+    <HeaderContent>
+        <MudTh>Fecha</MudTh>
+        <MudTh>Descripción</MudTh>
+        <MudTh>Tipo</MudTh>
+        <MudTh Style="text-align:right">Monto</MudTh>
+        <MudTh Style="text-align:center">Acciones</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Fecha">@context.Date.ToShortDateString()</MudTd>
+        <MudTd DataLabel="Descripción">@context.Description</MudTd>
+        <MudTd DataLabel="Tipo">
+            @if (context.Type == TransactionType.Income)
+            {
+                <MudChip T="string" Size="Size.Small" Color="Color.Success">Ingreso</MudChip>
+            }
+            else
+            {
+                <MudChip T="string" Size="Size.Small" Color="Color.Error">Egreso</MudChip>
+            }
+        </MudTd>
+        <MudTd DataLabel="Monto" Style="text-align:right; font-weight: 500;">
+            $ @context.Amount.ToString("N2")
+        </MudTd>
+        <MudTd DataLabel="Acciones" Style="text-align:center">
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => DeleteTransaction(context.Id))" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    protected override void OnInitialized()
+    {
+        DocManager.OnStateChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        DocManager.OnStateChanged -= StateHasChanged;
+    }
+
+    private async Task OpenNewTransactionDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<Components.TransactionDialog>("Registrar", options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is Transaction newTx)
+        {
+            await DocManager.AddTransactionAsync(newTx);
+        }
+    }
+
+    private async Task DeleteTransaction(Guid id)
+    {
+        bool? result = await DialogService.ShowMessageBoxAsync(
+            "Eliminar Transacción", 
+            "¿Estás seguro que deseas eliminar esta transacción?", 
+            yesText: "Sí, eliminar", cancelText: "Cancelar");
+            
+        if (result == true)
+        {
+            await DocManager.DeleteTransactionAsync(id);
+        }
+    }
+}

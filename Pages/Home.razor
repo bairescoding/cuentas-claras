@@ -1,0 +1,47 @@
+@page "/"
+@implements IDisposable
+@inject DocumentManager DocManager
+
+<PageTitle>Dashboard - Cuentas Claras</PageTitle>
+
+<MudText Typo="Typo.h4" GutterBottom="true" Class="font-weight-bold">Dashboard</MudText>
+<MudText Class="mb-6">Bienvenido a su gestor de finanzas personales offline-first.</MudText>
+
+<MudGrid>
+    <MudItem xs="12" sm="4">
+        <MudCard Elevation="3" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Typo="Typo.subtitle1" Color="Color.Default">Balance Total</MudText>
+                <MudText Typo="Typo.h4" Color="Color.Primary" Class="font-weight-bold mt-2">$ @DocManager.GetTotalBalance().ToString("N2")</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="4">
+        <MudCard Elevation="3" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Typo="Typo.subtitle1" Color="Color.Success">Doscientos Ingresos</MudText>
+                <MudText Typo="Typo.h5" Class="font-weight-medium mt-2">$ @DocManager.GetIncome().ToString("N2")</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6" sm="4">
+        <MudCard Elevation="3" Class="rounded-lg">
+            <MudCardContent>
+                <MudText Typo="Typo.subtitle1" Color="Color.Error">Total Egresos</MudText>
+                <MudText Typo="Typo.h5" Class="font-weight-medium mt-2">$ @DocManager.GetExpense().ToString("N2")</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    protected override void OnInitialized()
+    {
+        DocManager.OnStateChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        DocManager.OnStateChanged -= StateHasChanged;
+    }
+}

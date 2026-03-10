@@ -1,0 +1,64 @@
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form" @bind-IsValid="@success">
+            <MudSelect T="TransactionType" Label="Tipo" @bind-Value="Model.Type" Variant="Variant.Outlined" Class="mb-4">
+                <MudSelectItem Value="TransactionType.Income">Ingreso</MudSelectItem>
+                <MudSelectItem Value="TransactionType.Expense">Egreso</MudSelectItem>
+            </MudSelect>
+
+            <MudTextField @bind-Value="Model.Description" Label="Descripción" Variant="Variant.Outlined" Required="true" RequiredError="La descripción es requerida" Class="mb-4" />
+            
+            <MudNumericField @bind-Value="Model.Amount" Label="Monto" Variant="Variant.Outlined" Min="0.01M" HideSpinButtons="true" Required="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" Class="mb-4" />
+            
+            <MudDatePicker @bind-Date="ModelDate" Label="Fecha" Variant="Variant.Outlined" Required="true" Class="mb-4" />
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancelar</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Disabled="@(!success)">Guardar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+
+    private MudForm form = default!;
+    private bool success;
+
+    // View Model
+    private class TransactionVM
+    {
+        public TransactionType Type { get; set; } = TransactionType.Expense;
+        public string Description { get; set; } = string.Empty;
+        public decimal Amount { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
+    }
+
+    private TransactionVM Model = new();
+
+    private DateTime? ModelDate
+    {
+        get => Model.Date;
+        set { if (value.HasValue) Model.Date = value.Value; }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void Submit()
+    {
+        if (form.IsValid)
+        {
+            var tx = new Transaction
+            {
+                Description = Model.Description,
+                Amount = Model.Amount,
+                Type = Model.Type,
+                Date = Model.Date
+            };
+            MudDialog.Close(DialogResult.Ok(tx));
+        }
+    }
+}

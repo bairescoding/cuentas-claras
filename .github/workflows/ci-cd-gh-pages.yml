@@ -26,29 +26,29 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.x' # Update to target if needed
-
-    # - name: Install dependencies Node (if Tailwind/npm is used)
-    #   run: npm install
+        dotnet-version: '10.0.x'
 
     - name: Restore dependencies
       run: dotnet restore
     
     - name: Verify Code Formatting
       run: dotnet format --verify-no-changes
-      continue-on-error: true # Suppress error while project template is empty scaffolding
-
-    # Uncomment and use when unit tests are added
-    # - name: Run tests
-    #   run: dotnet test --no-build --verbosity normal
+      continue-on-error: true
 
     - name: Publish with dotnet
       run: dotnet publish -c Release -o release --nologo
 
+    - name: Fix base-href for GitHub Pages
+      run: |
+        sed -i 's/<base href="\/" \/>/<base href="\/cuentas-claras\/" \/>/g' release/wwwroot/index.html
+        sed -i 's/const base = "\/";/const base = "\/cuentas-claras\/";/g' release/wwwroot/service-worker.published.js
+
+    - name: Copy index.html to 404.html for SPA support
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
+
     # Hack to allow GitHub pages to serve folders starting with underscore (_framework)
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
-      continue-on-error: true
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3

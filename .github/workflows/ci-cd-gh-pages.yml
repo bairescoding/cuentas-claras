@@ -1,0 +1,69 @@
+name: Deploy Blazor WASM to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x' # Update to target if needed
+
+    # - name: Install dependencies Node (if Tailwind/npm is used)
+    #   run: npm install
+
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Verify Code Formatting
+      run: dotnet format --verify-no-changes
+      continue-on-error: true # Suppress error while project template is empty scaffolding
+
+    # Uncomment and use when unit tests are added
+    # - name: Run tests
+    #   run: dotnet test --no-build --verbosity normal
+
+    - name: Publish with dotnet
+      run: dotnet publish -c Release -o release --nologo
+
+    # Hack to allow GitHub pages to serve folders starting with underscore (_framework)
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
+      continue-on-error: true
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: 'release/wwwroot'
+      continue-on-error: true
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

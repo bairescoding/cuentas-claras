@@ -1,0 +1,54 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Mac OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# .NET / C#
+bin/
+obj/
+TestResults/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.log
+*.sqlite
+*.db
+
+# Visual Studio / Rider
+.vs/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.DotSettings.user
+
+# Node / JS
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# WASM PWA
+wwwroot/_framework/
+wwwroot/service-worker-assets.js
+!wwwroot/service-worker.js
+!wwwroot/service-worker.published.js
+
+# Env variables
+.env
+.env.local
+.env.*.local

@@ -1,0 +1,8 @@
+# Claude Code Configuration Document
+
+# Claude Code natively supports reading `.cursor/rules/*.mdc` files.
+# By maintaining our core architecture rules in the `.cursor/rules` directory,
+# we ensure that both Cursor and Claude Code remain perfectly synchronized in their context.
+
+[global]
+theme = "dark"

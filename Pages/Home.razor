@@ -4,35 +4,46 @@
 
 <PageTitle>Dashboard - Cuentas Claras</PageTitle>
 
-<MudText Typo="Typo.h4" GutterBottom="true" Class="font-weight-bold">Dashboard</MudText>
-<MudText Class="mb-6">Bienvenido a su gestor de finanzas personales offline-first.</MudText>
+<div class="reveal-element">
+    <MudText Typo="Typo.h3" GutterBottom="true" Style="font-weight: 800; color: var(--text-primary); letter-spacing: -0.03em;">Resumen Financiero</MudText>
+    <MudText Class="mb-8" Style="color: var(--text-secondary); font-size: 1.1rem;">Bienvenido a tu panel de control. Todo bajo control, siempre.</MudText>
 
-<MudGrid>
-    <MudItem xs="12" sm="4">
-        <MudCard Elevation="3" Class="rounded-lg">
-            <MudCardContent>
-                <MudText Typo="Typo.subtitle1" Color="Color.Default">Balance Total</MudText>
-                <MudText Typo="Typo.h4" Color="Color.Primary" Class="font-weight-bold mt-2">$ @DocManager.GetTotalBalance().ToString("N2")</MudText>
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
-    <MudItem xs="6" sm="4">
-        <MudCard Elevation="3" Class="rounded-lg">
-            <MudCardContent>
-                <MudText Typo="Typo.subtitle1" Color="Color.Success">Doscientos Ingresos</MudText>
-                <MudText Typo="Typo.h5" Class="font-weight-medium mt-2">$ @DocManager.GetIncome().ToString("N2")</MudText>
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
-    <MudItem xs="6" sm="4">
-        <MudCard Elevation="3" Class="rounded-lg">
-            <MudCardContent>
-                <MudText Typo="Typo.subtitle1" Color="Color.Error">Total Egresos</MudText>
-                <MudText Typo="Typo.h5" Class="font-weight-medium mt-2">$ @DocManager.GetExpense().ToString("N2")</MudText>
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
-</MudGrid>
+    <MudGrid>
+        <MudItem xs="12" sm="4" Class="reveal-element reveal-stagger-1">
+            <MudCard Elevation="0" Class="glass-panel overflow-hidden" Style="border-left: 6px solid var(--primary);">
+                <MudCardContent Class="pa-6">
+                    <div class="d-flex align-center mb-2">
+                        <MudIcon Icon="@Icons.Material.Filled.AccountBalanceWallet" Color="Color.Primary" Class="mr-2" />
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: var(--text-secondary);">Balance Total</MudText>
+                    </div>
+                    <MudText Typo="Typo.h3" Style="font-weight: 800; font-family: var(--header-font);" Color="Color.Primary">$ @DocManager.GetTotalBalance().ToString("N2")</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="4" Class="reveal-element reveal-stagger-2">
+            <MudCard Elevation="0" Class="glass-panel overflow-hidden" Style="border-left: 6px solid #10b981;">
+                <MudCardContent Class="pa-6">
+                    <div class="d-flex align-center mb-2">
+                        <MudIcon Icon="@Icons.Material.Filled.ArrowUpward" Style="color: #10b981" Class="mr-2" />
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: var(--text-secondary);">Ingresos Totales</MudText>
+                    </div>
+                    <MudText Typo="Typo.h4" Style="font-weight: 700; color: #10b981; font-family: var(--header-font);">$ @DocManager.GetIncome().ToString("N2")</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="4" Class="reveal-element reveal-stagger-3">
+            <MudCard Elevation="0" Class="glass-panel overflow-hidden" Style="border-left: 6px solid var(--secondary);">
+                <MudCardContent Class="pa-6">
+                    <div class="d-flex align-center mb-2">
+                        <MudIcon Icon="@Icons.Material.Filled.ArrowDownward" Color="Color.Secondary" Class="mr-2" />
+                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; color: var(--text-secondary);">Gastos Totales</MudText>
+                    </div>
+                    <MudText Typo="Typo.h4" Style="font-weight: 700; color: var(--secondary); font-family: var(--header-font);">$ @DocManager.GetExpense().ToString("N2")</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</div>
 
 @code {
     protected override void OnInitialized()

@@ -5,45 +5,63 @@
 
 <PageTitle>Transacciones - Cuentas Claras</PageTitle>
 
-<MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
-    <MudText Typo="Typo.h5" Class="font-weight-bold">Transacciones</MudText>
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenNewTransactionDialog">
-        Nueva Transacción
-    </MudButton>
-</MudStack>
+<div class="reveal-element">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-8">
+        <div>
+            <MudText Typo="Typo.h3" Style="font-weight: 800; color: var(--text-primary); letter-spacing: -0.03em;">Transacciones</MudText>
+            <MudText Style="color: var(--text-secondary);">Gestiona tus movimientos con claridad y precisión.</MudText>
+        </div>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenNewTransactionDialog" 
+                   Style="border-radius: 12px; padding: 12px 24px; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--accent)); shadow: var(--card-shadow);">
+            Nueva Transacción
+        </MudButton>
+    </MudStack>
 
-<MudTable Items="@DocManager.State.Transactions.OrderByDescending(t => t.Date)" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="2" Class="rounded-lg">
-    <HeaderContent>
-        <MudTh>Fecha</MudTh>
-        <MudTh>Descripción</MudTh>
-        <MudTh>Tipo</MudTh>
-        <MudTh Style="text-align:right">Monto</MudTh>
-        <MudTh Style="text-align:center">Acciones</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Fecha">@context.Date.ToShortDateString()</MudTd>
-        <MudTd DataLabel="Descripción">@context.Description</MudTd>
-        <MudTd DataLabel="Tipo">
-            @if (context.Type == TransactionType.Income)
-            {
-                <MudChip T="string" Size="Size.Small" Color="Color.Success">Ingreso</MudChip>
-            }
-            else
-            {
-                <MudChip T="string" Size="Size.Small" Color="Color.Error">Egreso</MudChip>
-            }
-        </MudTd>
-        <MudTd DataLabel="Monto" Style="text-align:right; font-weight: 500;">
-            $ @context.Amount.ToString("N2")
-        </MudTd>
-        <MudTd DataLabel="Acciones" Style="text-align:center">
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => DeleteTransaction(context.Id))" />
-        </MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
-</MudTable>
+    <MudTable Items="@DocManager.State.Transactions.OrderByDescending(t => t.Date)" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="0" 
+              Class="glass-panel overflow-hidden reveal-element reveal-stagger-1" Style="background: rgba(30, 41, 59, 0.4) !important;">
+        <HeaderContent>
+            <MudTh Style="color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">Fecha</MudTh>
+            <MudTh Style="color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">Descripción</MudTh>
+            <MudTh Style="color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">Tipo</MudTh>
+            <MudTh Style="text-align:right; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">Monto</MudTh>
+            <MudTh Style="text-align:center; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">Acciones</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Fecha" Style="color: var(--text-primary); font-weight: 500;">@context.Date.ToShortDateString()</MudTd>
+            <MudTd DataLabel="Descripción" Style="color: var(--text-primary);">@context.Description</MudTd>
+            <MudTd DataLabel="Tipo">
+                @if (context.Type == TransactionType.Income)
+                {
+                    <MudChip T="string" Size="Size.Small" Style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.2);">Ingreso</MudChip>
+                }
+                else
+                {
+                    <MudChip T="string" Size="Size.Small" Style="background: rgba(236, 72, 153, 0.15); color: var(--secondary); font-weight: 700; border: 1px solid rgba(236, 72, 153, 0.2);">Egreso</MudChip>
+                }
+            </MudTd>
+            <MudTd DataLabel="Monto" Style="text-align:right; font-weight: 700; font-family: var(--header-font); font-size: 1.1rem; color: var(--text-primary);">
+                $ @context.Amount.ToString("N2")
+            </MudTd>
+            <MudTd DataLabel="Acciones" Style="text-align:center">
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => DeleteTransaction(context.Id))" 
+                               Style="background: rgba(239, 68, 68, 0.1); transition: all 0.2s;" Class="hover-danger" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</div>
+
+<style>
+    .hover-danger:hover {
+        background: rgba(239, 68, 68, 0.2) !important;
+        transform: scale(1.1);
+    }
+    .mud-table-row:hover {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+    }
+</style>
 
 @code {
     protected override void OnInitialized()
@@ -62,7 +80,7 @@
         var dialog = await DialogService.ShowAsync<Components.TransactionDialog>("Registrar", options);
         var result = await dialog.Result;
 
-        if (!result.Canceled && result.Data is Transaction newTx)
+        if (result is not null && !result.Canceled && result.Data is Transaction newTx)
         {
             await DocManager.AddTransactionAsync(newTx);
         }

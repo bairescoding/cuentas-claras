@@ -1,5 +1,26 @@
-<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-    <MudNavLink Href="transactions" Icon="@Icons.Material.Filled.Receipt">Transacciones</MudNavLink>
-    <MudNavLink Href="settings" Icon="@Icons.Material.Filled.Settings">Ajustes</MudNavLink>
-</MudNavMenu>
+<div class="px-6 py-4">
+    <MudText Typo="Typo.overline" Class="text-secondary mb-4" Style="font-weight: 700; letter-spacing: 0.1em;">MENÚ PRINCIPAL</MudText>
+    <MudNavMenu Class="mud-nav-menu-custom">
+        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard" Class="mb-1 rounded-lg">Dashboard</MudNavLink>
+        <MudNavLink Href="transactions" Icon="@Icons.Material.Filled.Receipt" Class="mb-1 rounded-lg">Transacciones</MudNavLink>
+        <MudNavLink Href="settings" Icon="@Icons.Material.Filled.Settings" Class="mb-1 rounded-lg">Ajustes</MudNavLink>
+    </MudNavMenu>
+</div>
+
+<style>
+    .mud-nav-menu-custom .mud-nav-link {
+        transition: all 0.3s ease;
+        color: var(--text-secondary) !important;
+    }
+    .mud-nav-menu-custom .mud-nav-link:hover {
+        background-color: rgba(99, 102, 241, 0.1) !important;
+        color: var(--primary) !important;
+        transform: translateX(4px);
+    }
+    .mud-nav-menu-custom .mud-nav-link.active {
+        background-color: rgba(99, 102, 241, 0.15) !important;
+        color: var(--primary) !important;
+        font-weight: 600;
+        border-right: 3px solid var(--primary);
+    }
+</style>

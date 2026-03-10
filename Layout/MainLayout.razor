@@ -1,21 +1,23 @@
 @inherits LayoutComponentBase
+@inject IJSRuntime JS
 
 <MudThemeProvider @ref="@_themeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="CustomTheme" />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1">
+    <MudAppBar Elevation="0" Class="glass-appbar" Fixed="true">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Cuentas Claras</MudText>
+        <MudText Typo="Typo.h5" Class="ml-3" Style="font-family: var(--header-font); font-weight: 700; letter-spacing: -0.02em;">Cuentas Claras</MudText>
         <MudSpacer />
         <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" Color="Color.Inherit" OnClick="@ToggleDarkMode" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Docked" Elevation="2">
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="0" Variant="@DrawerVariant.Responsive" Fixed="true" Class="glass-panel ma-4" Style="height: calc(100vh - 32px) !important;">
         <NavMenu />
     </MudDrawer>
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-4 pt-4">
+    <MudMainContent Class="pa-6" Style="padding-top: 80px !important;">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="reveal-element">
             @Body
         </MudContainer>
     </MudMainContent>
@@ -28,11 +30,54 @@
 
     private MudTheme CustomTheme = new MudTheme()
     {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = "#4f46e5",
+            Secondary = "#db2777",
+            Tertiary = "#7c3aed",
+            AppbarBackground = "rgba(255, 255, 255, 0.8)",
+            AppbarText = "#1e293b",
+            Background = "#f8fafc",
+            Surface = "rgba(255, 255, 255, 0.9)",
+            DrawerBackground = "rgba(255, 255, 255, 0.8)",
+            DrawerText = "#475569",
+            DrawerIcon = "#475569",
+            ActionDefault = "#475569",
+            TextPrimary = "#0f172a",
+            TextSecondary = "#64748b",
+            Divider = "rgba(15, 23, 42, 0.08)"
+        },
         PaletteDark = new PaletteDark()
         {
-            Primary = Colors.Indigo.Lighten1,
-            AppbarBackground = "rgba(26,26,39,0.8)",
-            AppbarText = Colors.Shades.White,
+            Primary = "#6366f1",
+            Secondary = "#ec4899",
+            Tertiary = "#8b5cf6",
+            AppbarBackground = "rgba(15, 23, 42, 0.7)",
+            AppbarText = "#f8fafc",
+            Background = "#0f172a",
+            Surface = "rgba(30, 41, 59, 0.7)",
+            DrawerBackground = "rgba(15, 23, 42, 0.7)",
+            DrawerText = "#94a3b8",
+            DrawerIcon = "#94a3b8",
+            ActionDefault = "#94a3b8",
+            TextPrimary = "#f8fafc",
+            TextSecondary = "#94a3b8",
+            Divider = "rgba(255, 255, 255, 0.08)"
+        },
+        Typography = new Typography()
+        {
+            Default = new DefaultTypography() { FontFamily = new[] { "Plus Jakarta Sans", "Helvetica", "Arial", "sans-serif" } },
+            H1 = new H1Typography() { FontFamily = new[] { "Outfit", "sans-serif" }, FontWeight = "700" },
+            H2 = new H2Typography() { FontFamily = new[] { "Outfit", "sans-serif" }, FontWeight = "700" },
+            H3 = new H3Typography() { FontFamily = new[] { "Outfit", "sans-serif" }, FontWeight = "600" },
+            H4 = new H4Typography() { FontFamily = new[] { "Outfit", "sans-serif" }, FontWeight = "600" },
+            H5 = new H5Typography() { FontFamily = new[] { "Outfit", "sans-serif" }, FontWeight = "600" },
+            H6 = new H6Typography() { FontFamily = new[] { "Outfit", "sans-serif" }, FontWeight = "600" },
+            Button = new ButtonTypography() { FontFamily = new[] { "Outfit", "sans-serif" }, FontWeight = "600", TextTransform = "none" }
+        },
+        LayoutProperties = new LayoutProperties()
+        {
+            DefaultBorderRadius = "12px"
         }
     };
 
@@ -41,9 +86,10 @@
         _drawerOpen = !_drawerOpen;
     }
 
-    private void ToggleDarkMode()
+    private async Task ToggleDarkMode()
     {
         _isDarkMode = !_isDarkMode;
+        await JS.InvokeVoidAsync("localStorage.setItem", "themePreference", _isDarkMode.ToString().ToLower());
     }
 
     [Inject] private DocumentManager DocManager { get; set; } = default!;
@@ -51,5 +97,22 @@
     protected override async Task OnInitializedAsync()
     {
         await DocManager.InitializeAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var savedTheme = await JS.InvokeAsync<string>("localStorage.getItem", "themePreference");
+            if (!string.IsNullOrEmpty(savedTheme))
+            {
+                _isDarkMode = bool.Parse(savedTheme);
+            }
+            else
+            {
+                _isDarkMode = await _themeProvider.GetSystemDarkModeAsync();
+            }
+            StateHasChanged();
+        }
     }
 }

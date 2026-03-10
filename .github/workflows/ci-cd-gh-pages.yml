@@ -50,6 +50,16 @@ jobs:
       run: |
         sed -i 's|const base = "/";|const base = "/cuentas-claras/";|g' release/wwwroot/service-worker.js
 
+    - name: Fix importmap for GitHub Pages
+      run: |
+        sed -i 's|"./_framework/|"/cuentas-claras/_framework/|g' release/wwwroot/index.html
+        sed -i 's|"./_framework/|"/cuentas-claras/_framework/|g' release/wwwroot/404.html
+
+    - name: Fix service worker registration path
+      run: |
+        sed -i "s|service-worker.js'/|/cuentas-claras/service-worker.js'|g" release/wwwroot/index.html
+        sed -i "s|service-worker.js'/|/cuentas-claras/service-worker.js'|g" release/wwwroot/404.html
+
     # Hack to allow GitHub pages to serve folders starting with underscore (_framework)
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll

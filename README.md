@@ -71,4 +71,4 @@ Este repositorio está optimizado para el desarrollo asistido por IA (**Vibe Cod
 
 ## 📄 Licencia
 
-Este proyecto es de código abierto bajo la licencia MIT.
+Este proyecto es de código abierto bajo la [licencia MIT](LICENSE).

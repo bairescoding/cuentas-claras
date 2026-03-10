@@ -9,8 +9,11 @@
 <MudLayout>
     <MudAppBar Elevation="0" Class="glass-appbar" Fixed="true">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <img src="apple-touch-icon.png" alt="Logo" style="height: 32px; width: 32px; border-radius: 8px;" class="ml-3" />
-        <MudText Typo="Typo.h5" Class="ml-2" Style="font-family: var(--header-font); font-weight: 700; letter-spacing: -0.02em;">Cuentas Claras</MudText>
+        <img src="apple-touch-icon.png" alt="Logo" style="height: 40px; width: 40px; border-radius: 10px;" class="ml-3" />
+        <div class="ml-3 d-flex flex-column justify-center">
+            <MudText Typo="Typo.h6" Style="font-family: var(--header-font); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2;">Cuentas Claras</MudText>
+            <MudText Typo="Typo.caption" Style="font-family: var(--header-font); font-weight: 500; opacity: 0.7; line-height: 1;">Conservan mi dignidad</MudText>
+        </div>
         <MudSpacer />
         <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" Color="Color.Inherit" OnClick="@ToggleDarkMode" />
     </MudAppBar>

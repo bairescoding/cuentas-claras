@@ -1,4 +1,4 @@
-# 💰 Cuentas Claras
+# 💰 Cuentas Claras - Conservan mi dignidad
 
 **Cuentas Claras** es un gestor de finanzas personales moderno, ultra-rápido y elegante, diseñado como una **PWA (Progressive Web App)** utilizando **Blazor WebAssembly** y **.NET 10**.
 

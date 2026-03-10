@@ -60,6 +60,36 @@ jobs:
         sed -i "s|service-worker.js'/|/cuentas-claras/service-worker.js'|g" release/wwwroot/index.html
         sed -i "s|service-worker.js'/|/cuentas-claras/service-worker.js'|g" release/wwwroot/404.html
 
+    - name: Fix all static asset paths for GitHub Pages
+      run: |
+        # Fix preload link for dotnet.js
+        sed -i 's|href="_framework/|href="/cuentas-claras/_framework/|g' release/wwwroot/index.html
+        sed -i 's|href="_framework/|href="/cuentas-claras/_framework/|g' release/wwwroot/404.html
+        
+        # Fix CSS links (MudBlazor and app.css)
+        sed -i 's|href="_content/|href="/cuentas-claras/_content/|g' release/wwwroot/index.html
+        sed -i 's|href="_content/|href="/cuentas-claras/_content/|g' release/wwwroot/404.html
+        sed -i 's|href="css/|href="/cuentas-claras/css/|g' release/wwwroot/index.html
+        sed -i 's|href="css/|href="/cuentas-claras/css/|g' release/wwwroot/404.html
+        sed -i 's|href="CuentasClaras.styles.css"|href="/cuentas-claras/CuentasClaras.styles.css"|g' release/wwwroot/index.html
+        sed -i 's|href="CuentasClaras.styles.css"|href="/cuentas-claras/CuentasClaras.styles.css"|g' release/wwwroot/404.html
+        
+        # Fix manifest link
+        sed -i 's|href="manifest.webmanifest"|href="/cuentas-claras/manifest.webmanifest"|g' release/wwwroot/index.html
+        sed -i 's|href="manifest.webmanifest"|href="/cuentas-claras/manifest.webmanifest"|g' release/wwwroot/404.html
+        
+        # Fix icon links
+        sed -i 's|href="apple-touch-icon.png"|href="/cuentas-claras/apple-touch-icon.png"|g' release/wwwroot/index.html
+        sed -i 's|href="apple-touch-icon.png"|href="/cuentas-claras/apple-touch-icon.png"|g' release/wwwroot/404.html
+        sed -i 's|src="apple-touch-icon.png"|src="/cuentas-claras/apple-touch-icon.png"|g' release/wwwroot/index.html
+        sed -i 's|src="apple-touch-icon.png"|src="/cuentas-claras/apple-touch-icon.png"|g' release/wwwroot/404.html
+        
+        # Fix script src for blazor.webassembly.js and MudBlazor
+        sed -i 's|src="_framework/|src="/cuentas-claras/_framework/|g' release/wwwroot/index.html
+        sed -i 's|src="_framework/|src="/cuentas-claras/_framework/|g' release/wwwroot/404.html
+        sed -i 's|src="_content/|src="/cuentas-claras/_content/|g' release/wwwroot/index.html
+        sed -i 's|src="_content/|src="/cuentas-claras/_content/|g' release/wwwroot/404.html
+
     # Hack to allow GitHub pages to serve folders starting with underscore (_framework)
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
